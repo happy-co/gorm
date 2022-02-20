@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/signalfx/splunk-otel-go/instrumentation/database/sql/splunksql"
 )
 
 // NowFunc returns current time, this function is exported in order to be able
@@ -58,7 +60,7 @@ func Open(dialect string, args ...interface{}) (DB, error) {
 			if driver == "foundation" {
 				driver = "postgres" // FoundationDB speaks a postgres-compatible protocol.
 			}
-			dbSql, err = sql.Open(driver, source)
+			dbSql, err = splunksql.Open(driver, source)
 		case sqlCommon:
 			source = reflect.Indirect(reflect.ValueOf(value)).FieldByName("dsn").String()
 			dbSql = value
