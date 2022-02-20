@@ -9,6 +9,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/signalfx/splunk-otel-go/instrumentation/database/sql/splunksql"
+
 )
 
 // DB contains information for current db connection
@@ -73,7 +76,7 @@ func Open(dialect string, args ...interface{}) (db *DB, err error) {
 			driver = value
 			source = args[1].(string)
 		}
-		dbSQL, err = sql.Open(driver, source)
+		dbSQL, err = splunksql.Open(driver, source)
 		ownDbSQL = true
 	case SQLCommon:
 		dbSQL = value
